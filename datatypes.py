@@ -29,6 +29,6 @@ print(float(aa)*2)
 ab = "10" 
 ac = 10
 print(str(ac)+ab) # only strings can be concatenated
-ad = 0
-ae = 23
-print(bool(ae) and bool(ad))
+ad = 0 #False
+ae = 23 #all non zero values are true
+print(bool(ae) and bool(ad)) # F and T = F

@@ -22,7 +22,8 @@ n = int(input()) # always return an int
 #     print("negative")
 # else:
 #     print("equal")
-print("positive" if n > 0 else "negative" if n < 0 else "0")
+## one liner for this
+print("positive" if n > 0 else ("negative" if n < 0 else "0"))
 
 # n2 = input()
 # if len(n2) < 5:  # len returns length
@@ -31,3 +32,5 @@ print("positive" if n > 0 else "negative" if n < 0 else "0")
 #     print("long")
 # else:
 #     print("medium")
+
+## one liner only support expressions, break wll throw error
