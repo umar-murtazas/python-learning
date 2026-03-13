@@ -34,3 +34,10 @@ print("positive" if n > 0 else ("negative" if n < 0 else "0"))
 #     print("medium")
 
 ## one liner only support expressions, break wll throw error
+grades = 89
+print("A" if grades >= 90
+            else "B" if 80 <= grades < 90
+            else "C" if 70 <= grades < 80
+            else "D" if 60 <= grades < 70
+            else "F" if 0 <= grades < 60 
+            else "invalid" )       # chaining in conditionals
