@@ -65,13 +65,43 @@ def sum_list(list):
     for i in list:
         sum += i
     return sum
-list = [1, 2, 3, 4, 5, 6]
+list = [1, 2, 3, 4, 5, 6, 6, 3, 3, 4]
 print(sum_list(list)) # call the name of the data strcuture to use it.
 
 def max_number(list):
     large = list[0]
     for i in list:
         if(large < i):
-            large,i = i,large
+            large = i
     return large
 print("largest no : ", max_number(list))
+
+def remove_duplicates(a):
+    i = 0
+    while i < len(list):
+        j = i + 1
+        while j < len(list):
+            if list[i] == list[j]:
+                del list[j]
+            else:
+                j += 1
+        i += 1
+    return list
+print(remove_duplicates(list))
+
+def port_formatter(port):
+    return (f"port {port} is being scanned")
+
+print(port_formatter(90))
+
+def is_ip_valid(ip):
+    part = ip.split(".", 3)
+    if len(part) != 4:
+        return "invalid"
+    for i in part:
+        if not i.isdigit():
+            return "inavlid"
+        if int(i) < 0 and int(i) > 255:
+            print("invalid ip")
+    print( "valid")
+is_ip_valid("123.123.2.3")
