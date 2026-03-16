@@ -105,3 +105,20 @@ def is_ip_valid(ip):
             print("invalid ip")
     print( "valid")
 is_ip_valid("123.123.2.3")
+
+def word_count(word):
+    words = word.split() # if no paramters provided then the line count would be used to count separations
+    index = 0
+    for i in words:
+        index +=1
+    return index
+print(word_count("this is a test program"))
+
+# list1 = [1, 2, 3, 4, 5, 6, 7, 8]
+# even = list(filter(lambda x: x%2==0, list1))
+
+def reverse_str(string):
+    string1 = string[::-1] #slicing
+    return string1
+
+print(reverse_str("hello world"))
