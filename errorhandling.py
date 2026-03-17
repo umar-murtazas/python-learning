@@ -24,4 +24,18 @@ mylist = [1, 2, 3, 4]
 mydict = {"name" : "umar", "age" : 12}
 # print(mydict["class"]) # -> print(mydict["name"]) 
  
- 
+ # --------------------------------------------------- #
+try: #code  that might produce an error
+    num = int(input("enter a number : "))
+    x = 10/num
+    print(x)
+except ZeroDivisionError as z: # handles specific errors
+    print("Eror : ", z)
+except (ValueError, KeyboardInterrupt) as v: # catching multiple exceptions as one
+    print("error ->  ", v, end="") 
+    print(type(v)) # shows the type of error
+finally:
+    print("heheh")
+
+if num > 10:
+    raise ZeroDivisionError(" number too large! ")
