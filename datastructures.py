@@ -68,3 +68,80 @@ xydict = {
 }
 print(xydict["address"]) # entire address block
 print(xydict["address"]["city"]) # only one thing inside that data
+
+#-------------------------------------------------------# practice
+# nlist = []
+# for i in range(100):
+#     nlist.append(i)
+# print(nlist)
+nlist = list(range(100))
+del nlist[0]
+print(nlist)
+
+number = [10, 20, 30, 40, 50]
+print(number[:3:])
+print(number[:-3:-1])
+print(number[::2])
+
+tnumber = (1, 2, 3, 4, 5)
+print(tnumber[::-1])
+
+student = {
+    "name": "Ali",
+    "grades": [80, 90, 85],
+    "subjects": ["Math", "Physics", "CS"]
+}
+print(student["grades"][1])
+print(student["subjects"][2])
+
+userlist = [
+    {"name" : "umar", "status" : "active"},
+    {"name" : "ali", "status" : "not-active"},
+    {"name" : "jannat", "status" : "active"}
+]
+for user in userlist:
+    if user["status"] == "active":
+        print(user["name"])
+
+newlist = [1, 2, 3, 4, 5, 6,7 ]
+llist = [i for i in newlist if i%2 != 0] # list comprehension
+print(llist)
+
+network = {
+    "routers": [
+        {"ip": "192.168.1.1", "port" : 22, "status": "up"},
+        {"ip": "192.168.1.2", "port" : 80,  "status": "down"},
+    ],
+    "switches": [
+        {"ip": "192.168.2.1", "port" : 443, "status": "up"},
+        {"ip": "192.168.2.2", "port" : 23,  "status": "up"},
+        {"ip": "192.168.2.2", "port" : 22,  "status": "down"},
+    ]
+}
+for i in network["routers"] + network["switches"]:
+    if i["status"] == "up":
+        print(i["ip"])
+
+openportsonly = []
+uniqueips = set()
+for openports in network["routers"] + network["switches"]:
+    if openports["status"] == "up":
+        openportsonly.append(openports["port"])
+        uniqueips.add(openports["ip"])
+
+print(openportsonly)
+print(uniqueips)
+
+users = {
+    "Ali": {"admin", "user"},
+    "Ahmed": {"user"},
+    "Sara": {"admin", "developer"}
+}
+for admins in users:
+    if "admin" in users[admins]:
+        print(admins)
+
+lllist = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+even = list(filter(lambda x : not x%2, lllist)) # explicit looping x%2==0 -> False x%2 != 2 -> True
+odd = [n for n in lllist if n%2 != 0] # using list comprehension
+print(even, odd)
