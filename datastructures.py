@@ -145,3 +145,32 @@ lllist = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 even = list(filter(lambda x : not x%2, lllist)) # explicit looping x%2==0 -> False x%2 != 2 -> True
 odd = [n for n in lllist if n%2 != 0] # using list comprehension
 print(even, odd)
+
+filters = filter(lambda x : not x%2, lllist) # returns memmory address of the object (filters)
+print(filters)
+
+data = {
+    "servers": [
+        {"ip": "1.1.1.1", "services": ["http", "ssh"]},
+        {"ip": "2.2.2.2", "services": ["ftp"]},
+        {"ip": "3.3.3.3", "services": ["ssh", "ftp", "http"]}
+    ]
+}
+for ips in data["servers"]:  # each dict inside servers will become an iteration now on which ips will iterate
+    if "ssh" in ips["services"]: # or u could say ips{ip:}, ips{ip}, ips{ip} ips is the name of those dicts but one at a time
+        print(ips["ip"])
+
+ip_addresses = [
+    "192.168.1.10",
+    "10.0.0.5",
+    "192.168.1.10",
+    "172.16.0.2",
+    "10.0.0.5",
+    "192.168.1.20",
+    "172.16.0.2",
+    "192.168.1.15"
+]
+uniqueset1 = set()
+for i in ip_addresses:
+    uniqueset1.add(i)
+    print(uniqueset1) 
