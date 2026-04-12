@@ -37,12 +37,30 @@ print(r.readlines()) # reads all lines into a list
 # for line in f:
 #     print(line) # first 11 charcters wouldnt be shown becuase of the above read()
 
-w = open("sample.txt", "w")
-w.write("this is hte new sample data that has been updated inside the file")
-w.close()
-a = open("sample.txt", "a")
-a.write("\nthis is another line that has been added into the file by appending")
-a.close()
-with open("sample.txt", "r") as changed:
+# w = open("sample.txt", "w") #overwrites existing data
+# w.write("this is hte new sample data that has been updated inside the file")
+# w.close()
+# a = open("sample.txt", "a") # modifies the data.
+# a.write("\nthis is another line that has been added into the file by appending")
+# a.close()
+with open("sample.txt", "r") as changed: #auto closes file
     f = changed.read()
     print(f)
+
+file = open("sample.txt", "r")
+for line in file: #each line already has \n and print adds another one.
+    # line.strip() # creates copy of the original data since str are immmutable
+    l = line.strip()
+    print(l) # now the extra spaces will be removed
+
+
+print(file.tell()) # shows th current file pointer position in bytes
+file.seek(12,0) 
+print(file.tell())
+
+import os
+if os.path.exists("sample.txt"): #finds if the file exists or not
+    print("exists")
+
+# with open("img.jpg", "b") as a:
+#     print(a.read())
