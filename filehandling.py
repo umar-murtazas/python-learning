@@ -64,3 +64,23 @@ if os.path.exists("sample.txt"): #finds if the file exists or not
 
 # with open("img.jpg", "b") as a:
 #     print(a.read())
+
+# ---------------reading from csv and json files.-------------------
+import csv
+with  open("sample.txt", "r") as f:
+    reader = csv.reader(f) #reads line by line and converts it into a list
+    next(reader) # moves one step forward, skips one row
+    for row in reader:
+        if len(row) != 3: #skips invalid entries
+            continue
+        else:
+            print(row)
+    print("row one : ", row[0]) # gives data of one column
+
+    f.seek(0)
+    dictreader = csv.DictReader(f)
+    # for d in dictreader:
+    #     if len(d.keys()) != 3:
+    #         continue # does nothing on the current iteration
+        
+    #     print(d["name"])
