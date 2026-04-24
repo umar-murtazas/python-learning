@@ -61,7 +61,7 @@ print(file.tell())
 import os
 if os.path.exists("sample.txt"): #finds if the file exists or not
     print("exists")
-
+# 😒
 # with open("img.jpg", "b") as a:
 #     print(a.read())
 
@@ -76,11 +76,54 @@ with  open("sample.txt", "r") as f:
         else:
             print(row)
     print("row one : ", row[0]) # gives data of one column
-
+# 😒 needs refactoring
     f.seek(0)
-    dictreader = csv.DictReader(f)
-    # for d in dictreader:
-    #     if len(d.keys()) != 3:
-    #         continue # does nothing on the current iteration
-        
-    #     print(d["name"])
+    dictreader = csv.DictReader(f, fieldnames=["name", "age", "job"])
+    next(f)
+    next(f)
+    next(f)
+    for d in dictreader:
+        # if not all(d.values()): # all() returns true if every value is true
+        if len(d) != 3:
+            continue # does nothing on the current iteration
+        print(d)
+
+l = [10, 20, 30, 40]
+it = iter(l) # converts list from an iterable to iterator, files are auto converted into a 
+next(it) # skips the first element
+for i in it:
+    print(i)
+
+ports = [21, 53, 56, 80, 443]
+with open("portdata", "w", newline="") as w: #newline to prevent extra lines
+    # write = csv.writer(w) # writes to a file
+    # write.writerow(["Port", "status"]) # writes one row into the file.
+    # for p in ports:
+    #     write.writerow([p, "open"])
+    write = csv.DictWriter(w, fieldnames=["port", "status"])
+    write.writerow({"port": 21, "status": "open"})
+    write.writerow({"port": 80, "status": "open"})
+    write.writerow({"port": 53, "status": "open"})
+    write.writerow({"port": 443, "status": "open"})
+
+import json
+var = {
+    "name": "ahmed",
+    "class": 3,
+    "age": 12
+}
+data = []
+for i in range(10):
+    data.append(var)
+with open("work.json", "w") as j:
+    json.dump(data,j, indent=4)  # enter data into the file
+    
+with open("work.json", "r") as l:
+    access = json.load(l) # read data form the file
+    print(access[0]["name"])
+    # print(json.loads("work.json"))
+
+json_str = json.dumps(data) # converts python data into a json text
+print(type(json_str)) # py = {"name":"ali"} + text = '{"name":"ali"}'
+python_obj = json.loads(json_str) # converts json text into python object
+print(type(python_obj)) # str -> list/tuple/dict
