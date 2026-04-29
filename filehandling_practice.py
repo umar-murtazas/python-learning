@@ -69,3 +69,17 @@ with open("hehe.txt", "r") as mistakes:
     word_counts += 0
     
     print(word_counts)
+
+# with open("hehe.txt", "r") as read:
+#     with open("hehe.txt", "a") as replace:
+#         reap = read.read().lower()
+#         split = reap.split()
+#         print(split)
+#         if "python" in split:
+#             replace.write("java")
+with open("hehe.txt", "r") as red:
+    r = red.read().lower()
+    with open("hehe.txt", "w") as replace:
+        new = r.replace("python", "java")
+        replace.write(new)
+        print(red)
