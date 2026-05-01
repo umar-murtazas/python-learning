@@ -82,4 +82,70 @@ with open("hehe.txt", "r") as red:
     with open("hehe.txt", "w") as replace:
         new = r.replace("python", "java")
         replace.write(new)
-        print(red)
+        print(r)
+
+# c = 0         # count occurences of words
+# with open("hehe.txt", "r") as count:
+#     usr = input("enter the word ot search : ").lower()
+#     f = count.read()
+#     w = f.split()
+#     for i in w:
+#         if i == usr:
+#             c += 1
+#     print(c)
+
+dict1 = [
+    {
+        "name": "Ali",
+        "age": 20,
+        "course": "Cyber Security"
+    },
+    {
+        "name": "Ahmed",
+        "age": 22,
+        "course": "Python"
+    },
+    {
+        "name": "Sara",
+        "age": 21,
+        "course": "Networking"
+    }
+]
+with open("json.txt", "w") as j:
+    json.dump(dict1, j)
+
+with open("json.txt", "r") as r: #read names form json
+    j = json.load(r)
+    for i in j:
+        print("names are : ", i["name"])
+
+    r.seek(0) # count records
+    for i,n in enumerate(j):
+        pass
+    print(i+1)
+
+    cities = ["lahore", "islamabad", "kohat"] # adds data to existing objects
+    for m,city in zip(dict1, cities):   # zip turns data into a tuple
+        m["city"] = city
+    
+    print(dict1)
+
+    # i = input("enter the name : ") # case sensitive, write the exact name
+    # for ii in j:
+    #     if i == ii["name"]: 
+    #         print("name : ",i, " - > ", ii)
+        # else:
+        #     raise NameError("search is case sensitive!!")
+
+    names = set()  #sort names by age
+    for ii in j:
+        for iii in j:
+            if ii != iii:
+                if ii["age"] > iii["age"]:
+                    names.add(ii["name"])
+                if ii["age"] < iii["age"]:
+                    names.add(ii["name"])
+                if (not(ii["age"] < iii["age"]) and not(ii["age"] > iii["age"])):
+                    names.add(ii["name"])
+    print(names)
+    
