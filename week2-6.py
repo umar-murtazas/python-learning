@@ -1,20 +1,28 @@
 import csv
 from datetime import datetime
 # -----------------------------------methods used------------------------------------------ #
+## i) dict.extend() -> converts multiple data into separate entities instead of one nested list
+## ii) dict.fromkeys() -> create a new dict from a list of keys with default values.
+## iii) None -> used when the expected data type is not known.
+# -----------------------------------coding issues---------------------------------------------- #
 ## 1) used append() so existing data doesnt get overwritten.
-## 2) filepointer of normal files can be resetted by seek but module based filepointers (csv, json) should be created again if they get exhausted.
+## 2) filepointer can be ressetted but creating a new one is often simpler
 ## 3) set() to remove duplicates
 ## 4) set uses {} but writing this alone will create an empty dict, so use set() for empty set
 ## 5) max() is function not a method a.max()
 ## 6) list comprehensiopn will always produce a list so if we only want one value then use [0]
 ## 7) after opening a file for writing use the var where data is stored not the file pointer
 ## 8) values must be of the same type, use f{} which automatically converts them into str
-# -----------------------------------problems---------------------------------------------- #
+# -----------------------------------evaluation errors------------------------------------ #
+## 9) newline="" is used when reading files.
+## 10) duplicated logic, one if was enough for both.
+## 11) no exception handling for edge cases
+## 12) the output is based on the assumption any error like empty list could break this.
 
 print(" ========== security log analyzer ==========")
 
 user_file = input("enter the file name : ")
-# with open(user_file, "w", newline="") as file:
+# with open(user_file, "w", newline="") as file:   # 9)
 #     write_obj = csv.writer(file)
 #     write_obj.writerow(["name", "afia"])
 try:
@@ -57,14 +65,14 @@ def user_info(user_dictionary):
         ips.add(user_dict["ip"])
 
     failed_login_users = dict.fromkeys(users, 0)
-    failed_login_ips = dict.fromkeys(ips, 0)
+    failed_login_ips = dict.fromkeys(ips, 0)      # ii
 
     for user_dict in user_dictionary:
         if user_dict["status"] == "FAILED" :
             failed_login_users[user_dict["username"]] += 1
-        if user_dict["status"] == "FAILED" :
+        if user_dict["status"] == "FAILED" :    # 10
             failed_login_ips[user_dict["ip"]] += 1
-
+    # 11
     most_failed_login_user = [key for key,value in failed_login_users.items() if value == max(failed_login_users.values())] # here a stores keys and b stores values
     most_failed_login_ips = [key for key,value in failed_login_ips.items() if value == max(failed_login_ips.values())]
     # most_failed_login_user = failed_login_users["max(failed_login_users.values())"]     # 5
@@ -73,7 +81,7 @@ def user_info(user_dictionary):
     for key, value in failed_login_users.items():
         if value >= 3:
             print(key, "your attempt limit has reached!! more attempts could lead to account ban")
-
+    # 12
     return users, ips, most_failed_login_ips[0], most_failed_login_user[0] #, suspicious_user, suspicious_ip
 
 def create_file_name():
@@ -94,14 +102,14 @@ def report(report_dictionary):
     }
 
     data_list = []
-    data_list.extend(login_info(report_dictionary))
+    data_list.extend(login_info(report_dictionary))     # i
     data_list.extend(user_info(report_dictionary))
 
     final_data = dict(zip(user_data, data_list))
     print(final_data)
     
     file = create_file_name()
-    with open(file, "w", newline="") as w:
+    with open(file, "w") as w:
         for key, value in final_data.items(): # 7
             w.write(f"{key} : {value}\n")
             # w.write(key + " : " + value)  # 8
