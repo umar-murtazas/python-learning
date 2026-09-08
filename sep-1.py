@@ -6,7 +6,7 @@ import csv
 # -------------------------------problems------------------------------------- #
 ##
 ##
-## 3) get exacly 5 charcters from the last
+## 3) to get data from the of the last string write the negative value in START and : in the END.
 ## 4) decide biggest on something.
 
 print("================= Failed Login Heatmap =============")
@@ -93,12 +93,28 @@ def analyze_users_ips():
     users = dict.fromkeys(analyze_users,[])
     ips = dict.fromkeys(analyze_ips, [])
 
-    for (key,_), (ipkey,_) in zip(users.items(), ips.items()):
+    for (key,_), (ipkey,_) in zip(users.items(), ips.items()):     #7    _ are imp for some reason
         users[key] = [analyze_ips[i], status[i]]    #5 use the key directly instead of writing "key"
         ips[ipkey] = [analyze_users[i], status[i]]    #6 add []
         i += 1
 
-    print(users, ips)
+    failed_login_users = {}
+    failed_login_ip = {}
+
+    for user in users:
+        if users[user][1] == 'FAILED':
+            failed_login_users[user] = 1
+        else:
+            failed_login_users[user] = 0
+            
+    for ip in ips:
+        if ips[ip][1] == "FAILED":
+            failed_login_ip[ip] = 1
+        else:
+            failed_login_ip[ip] = 0
+
+    print(failed_login_users, failed_login_ip)
+    # print(users, ips)
 
 def report():
     # print(login_data())
