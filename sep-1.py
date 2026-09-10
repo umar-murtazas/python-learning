@@ -8,10 +8,14 @@ import csv
 ##
 ## 3) to get data from the of the last string write the negative value in START and : in the END.
 ## 4) decide biggest on something.
+##
+##
+## 7) u can enter both peices of info at the same time, with dict[key] = value, now both KEY, VALUE are there
 
 print("================= Failed Login Heatmap =============")
 
 file_name =  input("input the file : ")
+print()
 
 try :
     with open(file_name, "r", newline="") as writer:
@@ -34,7 +38,7 @@ except FileNotFoundError:
     exit
 
 def login_data():
-    count_lines,success_attempts,failed_attempts = 0,0,0
+    total_attempts,success_attempts,failed_attempts = 0,0,0
     for data in lined_data:
         sep_data = data.split(",")
         if "ip" in sep_data:
@@ -46,18 +50,17 @@ def login_data():
         if "failed".upper() in sep_data:    
             failed_attempts += 1
         
-        print(data)
-        count_lines += 1
+        # print(data)
+        total_attempts += 1
 
-    failure_percetange =  (failed_attempts / count_lines) * 100
+    failure_percetange =  (failed_attempts / total_attempts) * 100
     
-    return count_lines,success_attempts, failure_percetange
+    return total_attempts,success_attempts,failed_attempts, failure_percetange
 
 def user_data():
     unique_users, unique_ips = set(), set()
     for useless_user_data in lined_data:
         usefull_data = useless_user_data.split(",")
-        print(usefull_data)
         unique_users.add(usefull_data[1])
         unique_ips.add(usefull_data[2])
 
@@ -69,13 +72,14 @@ def analyze_time():
         time_data = times_data.split(",")
         if "ip" in time_data:
             continue
-        print(time_data)
+        # print(time_data)
         times = time_data[0]
         time.append(times[-5:-3])        #3
 
     failed_time = max(set(time), key=time.count)     #4
+    failed_frequency = time.count(failed_time)
 
-    return failed_time
+    return failed_time, failed_frequency
 
 def analyze_users_ips():
     analyze_users,analyze_ips,status,i = [], [],[],0
@@ -89,7 +93,7 @@ def analyze_users_ips():
         analyze_ips.append(analyzed_data[2])   
         status.append(analyzed_data[3])
 
-        print(analyzed_data)
+        # print(analyzed_data)
     users = dict.fromkeys(analyze_users,[])
     ips = dict.fromkeys(analyze_ips, [])
 
@@ -103,7 +107,7 @@ def analyze_users_ips():
 
     for user in users:
         if users[user][1] == 'FAILED':
-            failed_login_users[user] = 1
+            failed_login_users[user] = 1      #7 
         else:
             failed_login_users[user] = 0
             
@@ -113,14 +117,41 @@ def analyze_users_ips():
         else:
             failed_login_ip[ip] = 0
 
-    print(failed_login_users, failed_login_ip)
+    return failed_login_users, failed_login_ip
     # print(users, ips)
 
 def report():
-    # print(login_data())
+    print("======================================================")
+    print("                Login Activity Report                 ")
+    print("======================================================")
+    print()
+    
+    total_data = []
+    total_data = login_data()
+    print("Total Attempts : ", total_data[0])
+    print("Successfull : ", total_data[1])
+    print("Failed : ", total_data[2])
+    print("Failure Data : ", total_data[3], end="%")
+    print()
+    print()
+
+    
     # print(user_data())
-    # analyze_time()
-    analyze_users_ips()
+    failure_time_frequency = analyze_time()
+    print("Most active faliure hour :")
+    print(failure_time_frequency[0], end=":00")
+    print("\t",failure_time_frequency[1], "\t"  , end="failures")
+    print()
+    print()
+
+    users, ips = analyze_users_ips()
+    print("suspicious users : ")
+    name = max(users, key=users.get)
+    print(name, users[name], "failures")        #6
+
+    ip = max(ips, key=ips.get)
+    print(ip, ips[ip], "failures")
+    print()
 
 
 report()
