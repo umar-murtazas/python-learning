@@ -2,6 +2,7 @@ import requests as req
 from bs4 import BeautifulSoup
 import time
 from urllib.parse import urljoin, urlparse
+from datetime import datetime 
 
 link = input("enter the link : ")
 
@@ -23,45 +24,66 @@ except ModuleNotFoundError as f:
     print("module not found : ", f)
 
 # reponse info
-print("status code : ", response.status_code)
-print("final url : ", response.url)
-print("response time : ", response_time)
-print("response size : ", response.headers["Date"])
-print("content-Type : ", response.headers["Content-Type"])
+def reponse_info(response):
+    print("status code : ", response.status_code)
+    print("final url : ", response.url)
+    print("response time : ", response_time)
+    print("response size : ", response.headers["Date"])
+    print("content-Type : ", response.headers["Content-Type"])
 
 # check headers
-security_headers = ["Content-Security-Policy",
-"Strict-Transport-Security",
-"X-Content-Type-Options",
-"X-Frame-Options",
-"Referrer-Policy",
-"Permissions-Policy"]
+def reponse_header(response):
+    security_headers = ["Content-Security-Policy",
+    "Strict-Transport-Security",
+    "X-Content-Type-Options",
+    "X-Frame-Options",
+    "Referrer-Policy",
+    "Permissions-Policy"]
 
-for header,value in response.headers.items():       # use items to unpack both values else only one would get unpacked but 2 varaibles to take it.
-    # print(header, " : ", value)
-    if header in security_headers:
-        print(header, " : MISSING")
-    else:
-        print(header, " : PRESENT")
+    for header,value in response.headers.items():       # use items to unpack both values else only one would get unpacked but 2 varaibles to take it.
+        # print(header, " : ", value)
+        if header in security_headers:
+            print(header, " : MISSING")
+        else:
+            print(header, " : PRESENT")
 
-print()
 # extract links
-internal_link_counter = 0
-external_link_counter = 0
-for links in soup.find_all("a"):
-    if links.text.startswith("/") or "/" not in links.text:       # if non zero value then its true else false.
-        full_link = urljoin(link, links.text)       # use href that conatins the entire link thats more useful.
-        internal_link_counter += 1
-        print(full_link)
-    # if links.get("href"):
+def reponse_link_extraction(soup, domain):        
+    internal_link_counter = 0
+    external_link_counter = 0
+    for links in soup.find_all("a"):
+        if links.text.startswith("/") or "/" not in links.text:       # if non zero value then its true else false.
+            full_link = urljoin(link, links.text)       # use href that conatins the entire link thats more useful.
+            internal_link_counter += 1
+            print(full_link)
+        elif links.href:
+            ex_domain = links.href.split("/")
+            if ex_domain == domain[2]:
+                external_link_counter += 1
+        else:
+            print("error :)")
+            print(ex_domain[2])
 
-    # if len(links.text)
-    # if links.href:
+    print(internal_link_counter)
+    print(external_link_counter)
 
-    # # links_domain = links.text.split("/")
-    # print(links.domain)
+def response_imp_path(soup):            
+    imp_paths = [ "admin", "login", "api", "upload", "dashboard", "user," "register", "Zyte" ] # zyte for testing behaviour only
 
-    # print(links_domain)
-    # if domain[2] in links_domain[2]:
-    #     print(links)
-    #     external_link_counter += 1
+    for paths in soup.find_all("a"):
+        if paths.text in imp_paths:
+            path = urljoin(link, paths.text)
+            print("imp path found : ", path)
+
+def file_name_timestamp():
+    timestamp = datetime.now().strftime("%Y-%m-%d_%H:%M:%S")
+    filename = f"web_recon_{timestamp}.txt"
+
+    print(filename)
+    # open (timestamp)
+def summary():
+    reponse_info(response)
+    reponse_header(response)
+    reponse_link_extraction(soup, domain)
+    response_imp_path(soup)
+    file_name_timestamp()
